@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import os, time, sys
+=======
+import os, time
+>>>>>>> 8ce6e0a9392a89828eef9132ac846e245da6fdd4
 from codestats import api
 from termcolor import colored
 
