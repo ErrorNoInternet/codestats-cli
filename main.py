@@ -1,5 +1,3 @@
-#cython: language_level=3
-
 import os, time
 from codestats import api
 from termcolor import colored
