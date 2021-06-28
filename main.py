@@ -1,8 +1,11 @@
-#cython: language_level=3
-
-import os, time
+import os, time, sys
 from codestats import api
 from termcolor import colored
+
+username = None
+arguments = sys.argv
+if len(arguments) > 1:
+    username = arguments[1]
 
 def progressBar(amount, ratio=0.4):
     amount = round(amount * ratio)
@@ -10,10 +13,14 @@ def progressBar(amount, ratio=0.4):
 
 currentLanguage = "None"; currentMachine = "None"
 previousLanguageXP = {}; previousMachineXP = {}
-username = input("Username: ")
+if not username:
+    username = input("Username: ")
 
 while True:
-    time.sleep(1); user = api.User(username); os.system("clear")
+    try:
+        user = api.User(username); os.system("clear")
+    except:
+        print("Unable to find user"); sys.exit(0)
     print(f"{colored(user.name, attrs=['bold'])}: [{progressBar(user.progress, ratio=0.46)}] {colored(str(round(user.progress)) + '%', attrs=['bold'])} ({colored(str(user.total_xp) + ' XP', attrs=['bold'])}, {colored('Level ' + str(user.level), attrs=['bold'])})")
     languages = {}; topLanguages = []; index = 0
     for language in user.languages:
@@ -22,8 +29,7 @@ while True:
                 currentLanguage = language.name
         except:
             pass
-        previousLanguageXP[language.name] = language.experience
-        languages[language.name] = language.experience
+        previousLanguageXP[language.name] = language.experience; languages[language.name] = language.experience
     languages = dict(sorted(languages.items(), key=lambda item: item[1]))
     for language in languages:
         if len(languages) - index <= 3:
@@ -40,8 +46,7 @@ while True:
                 currentMachine = machine.name
         except:
             pass
-        previousMachineXP[machine.name] = machine.experience
-        machines[machine.name] = machine.experience
+        previousMachineXP[machine.name] = machine.experience; machines[machine.name] = machine.experience
     machines = dict(sorted(machines.items(), key=lambda item: item[1]))
     for machine in machines:
         if len(machines) - index <= 3:
@@ -52,4 +57,5 @@ while True:
     print(colored("Top Machines: ", attrs=["bold"]), end=""); print(f"{', '.join(reversed(topMachines))}")
     print(colored("Current Language: ", attrs=["bold"]), end=""); print(currentLanguage, end=", ")
     print(colored("Current Machine: ", attrs=["bold"]), end=""); print(currentMachine, end=", ")
-    print(colored("New Experience: ", attrs=["bold"]), end=""); print(str(user.new_xp) + " XP")
+    print(colored("New Experience: ", attrs=["bold"]), end=""); print(str(user.new_xp) + " XP"); time.sleep(4)
+
