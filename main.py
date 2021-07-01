@@ -1,4 +1,4 @@
-import os, time, sys
+import os, sys, time
 from codestats import api
 from termcolor import colored
 
