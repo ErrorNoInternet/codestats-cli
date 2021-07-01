@@ -20,9 +20,10 @@ while True:
     try:
         user = api.User(username)
     except KeyboardInterrupt:
-        sys.exit(0)
+        print("Stopping..."); sys.exit(0)
     except:
         print("Unable to find user"); sys.exit(0)
+
     languages = {}; topLanguages = []; index = 0
     for language in user.languages:
         try:
