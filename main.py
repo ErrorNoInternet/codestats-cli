@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import os, sys, time
 from codestats import api
 from termcolor import colored
